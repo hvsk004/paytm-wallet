@@ -158,4 +158,27 @@ async function getUsersByName(req: Request, res: Response) {
     }
 }
 
-export { signUpController, loginController, updateUser, getUsersByName };
+async function getUser(req: Request, res: Response) {
+    const userId = req.body.userId;
+    try {
+        const user = await User.findOne({ userId });
+        if (!user) {
+            res.status(401).json({
+                message: "User Not found",
+            })
+            return;
+        } 
+        res.status(200).json({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.username,
+        })
+    }
+    catch (err) {
+        res.status(500).json({
+            message: "Internal Server Error, failed to get user details",
+        });
+    }
+}
+
+export { signUpController, loginController, updateUser, getUsersByName, getUser };

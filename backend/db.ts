@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 import { IAccount, IUser } from "./types";
 import { string } from "zod";
+import { DB_URL } from "./config";
 
-const DB_URL: string = process.env.DB_URL || "mongodb://localhost:27017/paytm";
 mongoose.connect(DB_URL)
 
 const userSchema = new Schema<IUser>({

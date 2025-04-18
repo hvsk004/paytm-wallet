@@ -7,12 +7,12 @@ import { Request, Response } from "express";
 
 const app = express();
 
-// const corsOptions = {
-//     ["http://localhost:5173"],
-//     credentials: true,
-// };
+const corsOptions = {
+    origin: ["http://localhost:5173"],
+    credentials: true,
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 

@@ -53,6 +53,7 @@ export function authMiddleware(
                 });
                 return;
             }
+            req.body = {};
             req.body.userId = decoded.userId;
             next(); // Call the next function
 
