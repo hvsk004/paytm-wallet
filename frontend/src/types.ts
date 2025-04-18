@@ -8,8 +8,13 @@ export interface ILabeledInput {
 };
 
 export interface ISignupData {
-    firtsname: string;
-    lastname: string;
-    email: string;
+    firstName: string;
+    lastName: string;
+    username: string;
+    password: string;
+}
+
+export interface ILoginData{
+    username: string;
     password: string;
 }

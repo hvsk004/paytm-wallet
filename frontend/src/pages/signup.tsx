@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { LabeledInput } from "../components/labeledInput";
+import { signup, login } from "../api/auth";
+import { useNavigate } from "react-router-dom";
+import ButtonWithLoader from "../components/ButtonWithLoader";
+
 export function Signup() {
+  const navigate = useNavigate();
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     switch (name) {
@@ -10,8 +15,8 @@ export function Signup() {
       case "lastname":
         setLastName(value);
         break;
-      case "email":
-        setEmail(value);
+      case "username":
+        setUsername(value);
         break;
       case "password":
         setPassword(value);
@@ -20,10 +25,38 @@ export function Signup() {
         break;
     }
   }
-  const [firstname, setFirstName] = useState("");
-  const [lastname, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+
+  async function handleSignup() {
+    try {
+      const response = await signup({
+        firstName,
+        lastName,
+        username,
+        password,
+      });
+
+      if (response.status === 201) {
+        setMessage("Signup Successful redirecting to Dashboard.....");
+        const loginResponse = await login({ username, password });
+        if (loginResponse.status === 200) {
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 1000);
+        }
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.log("Signup Failed", err);
+      setErrorMsg(err?.response?.data?.message);
+    }
+  }
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   return (
     <div className="border-4 border-black rounded-md p-7 m-5 flex flex-col items-center">
       <h2 className="text-3xl font-semibold my-3">Signup</h2>
@@ -33,7 +66,7 @@ export function Signup() {
         type={"text"}
         placeholder={"Jhon"}
         onchange={handleChange}
-        value={firstname}
+        value={firstName}
       />
       <LabeledInput
         label={"Last Name"}
@@ -41,15 +74,15 @@ export function Signup() {
         type={"text"}
         placeholder={"Doe"}
         onchange={handleChange}
-        value={lastname}
+        value={lastName}
       />
       <LabeledInput
         label={"Email"}
-        name={"email"}
+        name={"username"}
         type={"email"}
         placeholder={"example@example.com"}
         onchange={handleChange}
-        value={email}
+        value={username}
       />
       <LabeledInput
         label={"Password"}
@@ -59,10 +92,9 @@ export function Signup() {
         onchange={handleChange}
         value={password}
       />
-
-      <button className="border-2 text-white bg-black  rounded-md p-2 m-2 min-w-xs ">
-        Signup
-      </button>
+      <ButtonWithLoader children={<p>Signup</p>} handleClick={handleSignup} />
+      <p className="text-md text-green-600">{message}</p>
+      <p className="text-md text-red-600">{errorMsg}</p>
     </div>
   );
 }
