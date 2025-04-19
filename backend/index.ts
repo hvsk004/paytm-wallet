@@ -3,6 +3,7 @@ import { router as apiRouter } from "./routes/index"
 import cors from "cors";
 import bodyParser from "body-parser";
 import { Request, Response } from "express";
+import { resolveSoa } from "dns";
 
 
 const app = express();
@@ -21,6 +22,10 @@ app.get("/health", (_req: Request, res: Response) => {
         message: "OK",
         currentTime: new Date(),
     })
+})
+
+app.get("/", (_req: Request, res: Response) => {
+    res.status(200).send("<h1>Hello World</h1>")
 })
 
 app.use("/api/v1", apiRouter);
