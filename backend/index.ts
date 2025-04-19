@@ -12,7 +12,7 @@ app.set("trust proxy", 1);
 const corsOptions = {
   origin:
     NODE_ENV === "production"
-      ? "https://paytm-wallet-swart.vercel.app"
+      ? "https://paytm-wallet.hvsaikrishna.dev"
       : FRONTEND_URL,
   credentials: true,
 };
