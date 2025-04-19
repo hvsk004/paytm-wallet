@@ -3,7 +3,6 @@ import { router as apiRouter } from "./routes/index"
 import cors from "cors";
 import bodyParser from "body-parser";
 import { Request, Response } from "express";
-import { resolveSoa } from "dns";
 
 
 const app = express();
