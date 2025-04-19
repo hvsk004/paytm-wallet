@@ -73,6 +73,7 @@ async function loginController(req: Request, res: Response) {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true, // Makes cookie inaccessible to JavaScript
         secure: true, // Required for HTTPS
+        domain: ".paytm-wallet.hvsaikrishna.dev",
       });
 
       res.status(200).json({
