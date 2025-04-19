@@ -3,6 +3,7 @@ import { router as apiRouter } from "./routes/index";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { Request, Response } from "express";
+import { NODE_ENV, FRONTEND_URL } from "./config";
 
 const app = express();
 
@@ -10,8 +11,8 @@ app.set("trust proxy", 1);
 
 const corsOptions = {
   origin:
-    process.env.NODE_ENV === "production"
-      ? [process.env.FRONTEND_URL || "https://paytm-wallet-swart.vercel.app"]
+    NODE_ENV === "production"
+      ? FRONTEND_URL
       : ["http://localhost:5173", "https://paytm-wallet-swart.vercel.app"],
   credentials: true,
 };
