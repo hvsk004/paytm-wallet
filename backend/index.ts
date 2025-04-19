@@ -9,7 +9,9 @@ import { resolveSoa } from "dns";
 const app = express();
 
 const corsOptions = {
-    origin: ["http://localhost:5173"],
+    origin: process.env.NODE_ENV === 'production' 
+        ? [process.env.FRONTEND_URL || "https://paytm-wallet-swart.vercel.app"] 
+        : ["http://localhost:5173", "https://paytm-wallet-swart.vercel.app"],
     credentials: true,
 };
 
