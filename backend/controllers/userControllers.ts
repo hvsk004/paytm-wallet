@@ -71,7 +71,7 @@ async function loginController(req: Request, res: Response) {
       res.cookie("paytm-jwt", newJWT, {
         sameSite: "none",
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        httpOnly: NODE_ENV === "production" ? true : false, // Makes cookie inaccessible to JavaScript
+        httpOnly: true, // Makes cookie inaccessible to JavaScript
         secure: true, // Required for HTTPS
       });
 
