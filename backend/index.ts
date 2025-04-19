@@ -12,8 +12,8 @@ app.set("trust proxy", 1);
 const corsOptions = {
   origin:
     NODE_ENV === "production"
-      ? FRONTEND_URL
-      : ["http://localhost:5173", "https://paytm-wallet-swart.vercel.app"],
+      ? "https://paytm-wallet-swart.vercel.app"
+      : FRONTEND_URL,
   credentials: true,
 };
 
