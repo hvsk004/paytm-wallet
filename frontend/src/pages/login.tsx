@@ -30,6 +30,9 @@ export function Login() {
           message: "Login Successful",
           color: "green-600",
         });
+
+        localStorage.setItem("paytm-jwt", response.data.jwt);
+
         setTimeout(() => {
           navigate("/dashboard");
         }, 1000);

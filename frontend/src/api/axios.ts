@@ -1,5 +1,4 @@
 import axios from "axios";
-import getCookie from "../utils/getCookie";
 
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -10,7 +9,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = getCookie("paytm-jwt");
+    const token = localStorage.getItem("paytm-jwt");
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   },

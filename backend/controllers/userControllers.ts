@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { LoginInput, SignupInput } from "../types";
 import { User, Account } from "../db";
 import { createToken } from "../utils/jwt";
-import { NODE_ENV } from "../config";
 
 async function signUpController(req: Request, res: Response) {
   const user: SignupInput = req.body;
@@ -66,18 +65,10 @@ async function loginController(req: Request, res: Response) {
       }
 
       const newJWT = createToken(user.userId);
-      res.clearCookie("paytm-jwt");
-
-      res.cookie("paytm-jwt", newJWT, {
-        sameSite: "none",
-        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        httpOnly: false, // Makes cookie inaccessible to JavaScript
-        secure: true, // Required for HTTPS
-        domain: ".paytm-wallet.hvsaikrishna.dev",
-      });
 
       res.status(200).json({
         message: "Login Successful",
+        jwt: newJWT,
       });
       return;
     }
