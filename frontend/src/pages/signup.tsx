@@ -37,8 +37,13 @@ export function Signup() {
 
       if (response.status === 201) {
         setMessage("Signup Successful redirecting to Dashboard.....");
+
         const loginResponse = await login({ username, password });
+
         if (loginResponse.status === 200) {
+          localStorage.removeItem("paytm-jwt");
+          localStorage.setItem("paytm-jwt", loginResponse.data.jwt);
+
           setTimeout(() => {
             navigate("/dashboard");
           }, 1000);

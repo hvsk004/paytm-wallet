@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { LoginInput, SignupInput } from "../types";
 import { User, Account } from "../db";
 import { createToken } from "../utils/jwt";
+import { UserIdRequest } from "../types";
 
 async function signUpController(req: Request, res: Response) {
   const user: SignupInput = req.body;
@@ -80,8 +81,8 @@ async function loginController(req: Request, res: Response) {
   }
 }
 
-async function updateUser(req: Request, res: Response) {
-  const userId = req.body.userId;
+async function updateUser(req: Request & UserIdRequest, res: Response) {
+  const userId = req.userId;
   try {
     const user = await User.findOne({
       userId: userId,
@@ -92,9 +93,9 @@ async function updateUser(req: Request, res: Response) {
       return;
     }
 
-    if (req.body.firstName) user.firstName = req.body.firstName;
-    if (req.body.lastName) user.lastName = req.body.lastName;
-    if (req.body.password) user.password = req.body.password;
+    if (req.body?.firstName) user.firstName = req.body.firstName;
+    if (req.body?.lastName) user.lastName = req.body.lastName;
+    if (req.body?.password) user.password = req.body.password;
 
     await user.save();
 
@@ -111,7 +112,7 @@ async function updateUser(req: Request, res: Response) {
   }
 }
 
-async function getUsersByName(req: Request, res: Response) {
+async function getUsersByName(req: Request & UserIdRequest, res: Response) {
   const name = req.query.name as string | undefined;
   if (!name) {
     res.status(400).json({
@@ -145,8 +146,8 @@ async function getUsersByName(req: Request, res: Response) {
   }
 }
 
-async function getUser(req: Request, res: Response) {
-  const userId = req.body.userId;
+async function getUser(req: Request & UserIdRequest, res: Response) {
+  const userId = req.userId;
   try {
     const user = await User.findOne({ userId });
     if (!user) {

@@ -25,9 +25,7 @@ export async function login({ username, password }: ILoginData) {
 }
 
 export async function getUserDetails() {
-  const response = await api.get("/user/getUser", {
-    data: {},
-  });
+  const response = await api.get("/user/getUser");
 
   return response;
 }

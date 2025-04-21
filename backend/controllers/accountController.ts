@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { Account } from "../db";
 import mongoose from "mongoose";
+import { UserIdRequest } from "../types";
 
-async function getAccountBalance(req: Request, res: Response) {
-  const userId = req.body.userId;
+async function getAccountBalance(req: Request & UserIdRequest, res: Response) {
+  const userId = req.userId;
 
   const userAccount = await Account.findOne({
     userId,
@@ -22,7 +23,10 @@ async function getAccountBalance(req: Request, res: Response) {
   return;
 }
 
-async function transferMoneyController(req: Request, res: Response) {
+async function transferMoneyController(
+  req: Request & UserIdRequest,
+  res: Response
+) {
   const { userId, toId, amount } = req.body;
   if (amount <= 0) {
     res.status(400).json({ message: "Amount must be positive" });
